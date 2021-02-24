@@ -16,7 +16,7 @@ u2 = max(lims(2, :));
 %% Generate new data or not?
 
 
-generatingNew = false;
+generatingNew = false; % true for generating a new set of tasks; false for using the same tasks;
 
 if generatingNew == true
 
@@ -37,8 +37,8 @@ if generatingNew == true
 
 else
     
-    load('fixed_tasks_robotTrust.mat')
-    num_tasks = 2; %max 10000
+    load('../data/fixed_tasks_robotTrust.mat')
+    num_tasks = 800; %5, 15, 400, 800. Max = 10000
 
     p = p_from_mat(:, 1:num_tasks);
     perfs = perfs_from_mat(:, 1:num_tasks);
@@ -78,6 +78,6 @@ observed_probs = total_successes ./ total_obs
 saving = true;
 
 if saving
-    save('~/Documents/human-trust-transfer/code/robotTrust_ObsProbs.mat', 'observed_probs', 'num_tasks');
+    save('../data/robotTrust_ObsProbs.mat', 'observed_probs', 'num_tasks');
 end
 

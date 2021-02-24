@@ -103,7 +103,7 @@ if __name__ == "__main__":
     bin_c = [0.05, 0.15, 0.25, 0.35, 0.45, 0.55, 0.65, 0.75, 0.85, 0.95]
     bin_c = dtype(bin_c)
 
-    obs_probs_mat = sio.loadmat('robotTrust_ObsProbs.mat')
+    obs_probs_mat = sio.loadmat('../data/robotTrust_ObsProbs.mat')
     obs_probs = obs_probs_mat["observed_probs"]
     total_num_tasks = obs_probs_mat["num_tasks"]
 
@@ -192,5 +192,5 @@ if __name__ == "__main__":
 
 
     res_dict = {"l_1": l_1, "u_1": u_1, "l_2": l_2, "u_2": u_2, "tt": tt, "loss": loss_to_save, "total_num_tasks": total_num_tasks[0][0]}
-    res_mat_file_name = "resultsRobotTrust_2Dim.mat"
+    res_mat_file_name = "results/resultsRobotTrust_2Dim.mat"
     sio.savemat(res_mat_file_name, res_dict)
