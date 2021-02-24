@@ -13,7 +13,7 @@ vv = 0.0:dl:1.0;
 
 [L1, L2] = meshgrid(vv, vv);
 
-T = trust(l1, u1, b, L1) .* trust(l2, u2, b, L2);
+T = trust_(l1, u1, b, L1) .* trust_(l2, u2, b, L2);
 
 figure()
 set(gcf, 'Position', [10 10 300 250])

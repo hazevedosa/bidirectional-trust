@@ -66,7 +66,7 @@ end
 
 %-------------------------------------
 
-load('fixed_tasks_robotTrust.mat');
+load('../../../data/fixed_tasks_robotTrust.mat');
 
 subplot(1, 4, 4)
 for i = 1:total_num_tasks
