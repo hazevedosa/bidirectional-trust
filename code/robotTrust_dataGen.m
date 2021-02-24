@@ -25,7 +25,7 @@ if generatingNew == true
     p = rand(2, num_tasks);
     perfs = zeros(1, num_tasks);
 
-    trust_p = trust(l1, u1, b, p(1,:)) .* trust(l2, u2, b, p(2,:));
+    trust_p = trust_(l1, u1, b, p(1,:)) .* trust_(l2, u2, b, p(2,:));
 
     for i = 1 : length(p)
         trust_pi = trust_p(i);
