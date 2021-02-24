@@ -16,8 +16,8 @@ The Bi-directional trust model is implemented in two files:
 
 Both classes extend PyTorch's nn.Module class.
 
-The other models evaluated in the paper are implemented in the file trustmodels.py. This file is adapted from the models described in the paper "Multi-task trust transfer for human–robot interaction. The International Journal of Robotics Research 39.2-3 (2020): 233-249." (Soh, Harold, et al. 2020), available at https://
-github.com/crslab/human-trust-transfer.
+The other models evaluated in the paper are implemented in the file trustmodels.py. This file is adapted from the models described in the paper "Multi-task trust transfer for human–robot interaction. The International Journal of Robotics Research 39.2-3 (2020): 233-249." (Soh, Harold, et al. 2020), available at 
+https://github.com/crslab/human-trust-transfer.
 
 ## Use Instructions
 
