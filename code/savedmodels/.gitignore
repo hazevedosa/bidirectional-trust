@@ -1,0 +1,4 @@
+# Ignore everythong in tihs directory
+*
+# Except this file
+!.gitignore

@@ -1527,37 +1527,44 @@ def main(
 
 if __name__ == "__main__":
 
-    dom = sys.argv[1] #"household" or "driving"
+    dom = "driving" # sys.argv[1] #"household" or "driving"
     reptype = "wordfeat"
-    splittype = sys.argv[2] #"3participant" or "LOOtask"
-    modeltype = sys.argv[3] #"neural" or "gp"
-    gpmode = int(sys.argv[4]) 
-    taskrepsize = int(sys.argv[5])
+    splittype = "3participant" #"3participant" or "LOOtask"
+    modeltype = sys.argv[1] #"neural" or "gp"
+    gpmode = 0
+    taskrepsize = 50
     
     print(dom, modeltype, splittype, gpmode)
     
-    if dom == "household" or dom == "driving":
-        _, nparts = loadData(dom)
-    else:
-        raise ValueError("No such domain")
+    # if dom == "household" or dom == "driving":
+    #     _, nparts = loadData(dom)
+    # else:
+    #     raise ValueError("No such domain")
 
-    ntasks = 13
-    if splittype == "3participant":
-        start = 0
-        nfolds = 10
-        end = nfolds
-        pval = 0.15  # validation proportion
-    elif splittype == "LOOtask":
-        start = 1
-        end = ntasks
-        nfolds = ntasks
-        pval = 0.15  # validation proportion
-    elif splittype == "random":
-        start = 0
-        end = 10
-        nfolds = 10
-    else:
-        raise ValueError("No such splittype")
+    # ntasks = 13
+    # if splittype == "3participant":
+    #     start = 0
+    #     nfolds = 10
+    #     end = nfolds
+    #     pval = 0.15  # validation proportion
+    # elif splittype == "LOOtask":
+    #     start = 1
+    #     end = ntasks
+    #     nfolds = ntasks
+    #     pval = 0.15  # validation proportion
+    # elif splittype == "random":
+    #     start = 0
+    #     end = 10
+    #     nfolds = 10
+    # else:
+    #     raise ValueError("No such splittype")
+
+
+    start = 0
+    nfolds = 10
+    end = nfolds
+    pval = 0.15  # validation proportion
+
 
     allresults = []
     print(start, end)
