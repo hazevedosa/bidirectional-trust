@@ -53,4 +53,5 @@ All videos used in the experiment are available at https://bit.ly/37gXXkI.
 ## Misc
 
 The `paper` folder also contains the LaTeX source files for the paper. (TO BE CHANGED)
-`survey/Qualtrics Survey.pdf` is the Qualtrics survey taken by the Amazon Mechanical Turk workers.
+
+`survey/Qualtrics Survey.pdf` presents the Qualtrics survey taken by the Amazon Mechanical Turk workers.
