@@ -4,7 +4,7 @@ Dataset and software for the paper "A Unified Bi-Directional Model for Natural a
 
 ## Dataset
 
-The Raw dataset is found in data/RawData.xlsx. This dataset is processed with the genDataset.m MATLAB script, as in the Instructions below.
+The Raw dataset is found in `data/RawData.xlsx`. This dataset is processed with the genDataset.m MATLAB script, as in the Instructions below.
 
 
 ## Software
@@ -23,13 +23,13 @@ https://github.com/crslab/human-trust-transfer.
 
 ### Humans' Natural Trust
 
-1. run `data/genDataset.m` on MATLAB.
+1. Run `data/genDataset.m` on MATLAB.
 That will generate the MatDataset.mat file in the code folder.
 
-2. Run `python3 trustExperiment.py <model>` from the `code` dir, with `<model> = btm`; `gpMod`; or `opt`.
+2. Run `python3 trustExperiment.py <model>` from the `code` directory, with `<model> = btm`; `gpMod`; or `opt`.
 That will generate the file `results/results_mat_<model>.mat`.
 
-3. explore the results file `results/results_mat_<model>.mat` on MATLAB.
+3. Explore the results file `results/results_mat_<model>.mat` on MATLAB.
 
 
 ### Robots' Artificial Trust
@@ -37,15 +37,20 @@ That will generate the file `results/results_mat_<model>.mat`.
 1. Run `code/robotTrust_dataGen.m` on MATLAB.
 That will generate the sythentic data for the Artificial Trust Mode simulation. Here line 41 can be changed to represent the value of N.
 
-2. run `python3 RobotTrustModel_2Dim.py` from the `code` dir.
+2. Run `python3 RobotTrustModel_2Dim.py` from the `code` dir.
 That will generate the file `results/resultsRobotTrust_2Dim.mat`
 
-3. explore the results file `results/resultsRobotTrust_2Dim.mat` on MATLAB
+3. Explore the results file `results/resultsRobotTrust_2Dim.mat` on MATLAB
 
-### Paper Figures
+## Paper Figures
 
 With the results, data can be explored and figures can be generated with the scripts in `paper/paperFigs/figs-code`.
 
-### Experiment Videos
+## Experiment Videos
 
 All videos used in the experiment are available at https://bit.ly/37gXXkI.
+
+## Misc
+
+The `paper` folder also contains the LaTeX source files for the paper. (TO BE CHANGED)
+`survey/Qualtrics Survey.pdf` is the Qualtrics survey taken by the Amazon Mechanical Turk workers.
