@@ -304,7 +304,7 @@ for i = 1:num_responses
     if participant_warning == true
         disp('Participant NOK. MTurk Code:');
         disp(participant_mturk_code);
-        pause;
+%         pause;
         
     else
         disp('Participant OK. Mturk Code:');

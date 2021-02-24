@@ -37,7 +37,7 @@ if generatingNew == true
 
 else
     
-    load('../data/fixed_tasks_robotTrust.mat')
+    load('./fixed_tasks_robotTrust.mat')
     num_tasks = 800; %5, 15, 400, 800. Max = 10000
 
     p = p_from_mat(:, 1:num_tasks);
@@ -78,6 +78,6 @@ observed_probs = total_successes ./ total_obs
 saving = true;
 
 if saving
-    save('../data/robotTrust_ObsProbs.mat', 'observed_probs', 'num_tasks');
+    save('./robotTrust_ObsProbs.mat', 'observed_probs', 'num_tasks');
 end
 

@@ -34,7 +34,7 @@ That will generate the file `results/results_mat_<model>.mat`.
 
 ### Robots' Artificial Trust
 
-1. Run `code/robotTrust_dataGen.m` on MATLAB.
+1. Run `data/robotTrust_dataGen.m` on MATLAB.
 That will generate the sythentic data for the Artificial Trust Mode simulation. Here line 41 can be changed to represent the value of N.
 
 2. Run `python3 RobotTrustModel_2Dim.py` from the `code` dir.
