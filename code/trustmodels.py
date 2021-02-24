@@ -289,60 +289,33 @@ class GPTrustTransfer(torch.nn.Module):
                 x = inptasksobs[0, i, :].view(1, self.inpsize)
 
 
- 
-
-            # if (x == 0).all(): # looks just at the first task
-            if False: # ignore this
-                
-                if self.usepriorpoints:
-
-            
-                    alpha, C, bvs = self.GPupdate(self.priorsucc, self.succ, self.kfunc, self.kparams, alpha, C, bvs, rawx=None)
-                    alpha, C, bvs = self.GPupdate(self.priorfail, self.fail, self.kfunc, self.kparams, alpha, C, bvs, rawx=None)
-                noop = None
-
-                
-            else:
-
-                
-                # print("----------------------")
-
-                ### first update "priors"
-                ### commented out to see what happens if there is no prior points...
-
-                # if self.usepriorpoints:
-                #     alpha, C, bvs = self.GPupdate(self.priorsucc, self.succ, self.kfunc, self.kparams, alpha, C, bvs, rawx=None)
-                #     alpha, C, bvs = self.GPupdate(self.priorfail, self.fail, self.kfunc, self.kparams, alpha, C, bvs, rawx=None)
-
-                # then update observed sequence
-
-                self.obsseqlen = num_obs_tasks
+            self.obsseqlen = num_obs_tasks
 
 
-                # Here is where we build the basis for the gaussian process
-                for t in range(self.obsseqlen):
-                    if self.kerneltype == self.FAKERNEL:
-                        if self.reptype == "1hot":
-                            x = torch.matmul(Alp, inptasksobs[t, i, :]).view(1, self.taskrepsize)
-                        else:
-                            # what is really executed
-                            x = torch.matmul(Alp, inptasksobs[t, i, :]).view(1, self.taskrepsize)
-
+            # Here is where we build the basis for the gaussian process
+            for t in range(self.obsseqlen):
+                if self.kerneltype == self.FAKERNEL:
+                    if self.reptype == "1hot":
+                        x = torch.matmul(Alp, inptasksobs[t, i, :]).view(1, self.taskrepsize)
                     else:
-                        # doesnt get here...
-                        x = inptasksobs[t, i, :].view(1, self.inpsize)
-                        #estdiff = self.getDifficulty(x)
+                        # what is really executed
+                        x = torch.matmul(Alp, inptasksobs[t, i, :]).view(1, self.taskrepsize)
 
-                    if not((x == 0).all()):
+                else:
+                    # doesnt get here...
+                    x = inptasksobs[t, i, :].view(1, self.inpsize)
+                    #estdiff = self.getDifficulty(x)
 
-                        if (inptasksperf[t, i, 0] == 1).all():
-                            y = self.fullfail
-                        
-                        else:
-                            y = self.fullsucc
+                if not((x == 0).all()):
 
-                        # print("y", y)
-                        alpha, C, bvs = self.GPupdate(x, y, self.kfunc, self.kparams, alpha, C, bvs, rawx=inptasksobs[t, i, :])
+                    if (inptasksperf[t, i, 0] == 1).all():
+                        y = self.fullfail
+                    
+                    else:
+                        y = self.fullsucc
+
+                    # print("y", y)
+                    alpha, C, bvs = self.GPupdate(x, y, self.kfunc, self.kparams, alpha, C, bvs, rawx=inptasksobs[t, i, :])
 
             # perform prediction
             if self.kerneltype == self.FAKERNEL:
@@ -386,11 +359,6 @@ class GPTrustTransfer(torch.nn.Module):
         s = kparams['s']
         phi = kparams['phi']
 
-
-
-        # d = torch.div((x1-x2), torch.pow(phi, 2.0))
-        # d = (x1-x2)
-        # phi = torch.clamp(phi, -10, 0.01)
         d = torch.div((x1 - x2), torch.exp(phi))
         # print(d)
 
@@ -440,9 +408,6 @@ class GPTrustTransfer(torch.nn.Module):
     def GPupdate(self, x, y, kfunc, kparams, alpha=None, C=None, bvs=None, update_method='c', rawx=None):
 
         kstar = kfunc(x, x, kparams)
-
-
-        #noisevar = kparams['noisevar']
         
         noise = torch.exp(self.noisevar) + 0.01  # for numerical stability
         mx = self.getPriorMean(x)
@@ -489,7 +454,7 @@ class GPTrustTransfer(torch.nn.Module):
 
             Erfz = (torch.erf(z / self.sqrt2) + 1) / 2
             # print('Erfz', Erfz)
-            regl = self.reg_const #1.0  # dampener: in case. ---- try 0.5??
+            regl = self.reg_const
             constl = regl * 1.0 / np.sqrt(2 * np.pi)
             dErfz = torch.exp(-torch.pow(z, 2.0) / 2.0) * constl
             dErfz2 = dErfz * (-z) * regl
@@ -499,7 +464,7 @@ class GPTrustTransfer(torch.nn.Module):
                 rclp = 1.0  # clamp value for numerical stability
                 q = (y / sx) * (dErfz / Erfz) # EQUATION 11 of the paper
                 q = torch.clamp(q, -rclp, rclp)
-                r = (1.0 / s2) * ((dErfz2 / Erfz) - torch.pow((dErfz / Erfz), 2.0))   # Kinda weird...... EQUATION 12 of the paper
+                r = (1.0 / s2) * ((dErfz2 / Erfz) - torch.pow((dErfz / Erfz), 2.0))
                 r = torch.clamp(r, -rclp, rclp)
                 # print('r', r)
             else:
@@ -526,10 +491,10 @@ class GPTrustTransfer(torch.nn.Module):
 
             C = torch.cat((C, zerocol), 1)
             C = torch.cat((C, zerorow))
-            C = C + r * torch.matmul(s.t() , s)       # EQUATION 10 of the paper
+            C = C + r * torch.matmul(s.t() , s)
 
             
-            alpha = alpha + s * q     # EQUATION 9 of the paper
+            alpha = alpha + s * q
 
             # print("q", q)
             # print("alpha 2", alpha)
@@ -748,13 +713,9 @@ class GPTrustTransfer_Mod(torch.nn.Module):
 
 
     def forward(self, inptasksobs, inptasksperf, inptaskspred, num_obs_tasks):
-        N = inptasksobs.shape[1]     # N is probably the number of tasks for trust to be predicted...
+        N = inptasksobs.shape[1]
         predtrust = Variable(dtype(np.zeros((N, 1))), requires_grad=False)
         errors = Variable(dtype(np.zeros((N, 1))), requires_grad=False)
-
-
-        # hack to hardcode the number of observed tasks
-        # num_obs_tasks = 10
 
         if usecuda:
             predtrust = predtrust.cuda()
@@ -777,60 +738,33 @@ class GPTrustTransfer_Mod(torch.nn.Module):
             else:
                 x = inptasksobs[0, i, :].view(1, self.inpsize)
 
-
- 
-
-            # if (x == 0).all(): # looks just at the first task
-            if False: # ignore this
-                
-                if self.usepriorpoints:
-
-            
-                    alpha, C, bvs = self.GPupdate(self.priorsucc, self.succ, self.kfunc, self.kparams, alpha, C, bvs, rawx=None)
-                    alpha, C, bvs = self.GPupdate(self.priorfail, self.fail, self.kfunc, self.kparams, alpha, C, bvs, rawx=None)
-                noop = None
-
-                
-            else:
-
-                
-                # print("----------------------")
-                ### first update "priors"
-                ### commented out to see what happens if there is no prior points...
-
-                # if self.usepriorpoints:
-                #     alpha, C, bvs = self.GPupdate(self.priorsucc, self.succ, self.kfunc, self.kparams, alpha, C, bvs, rawx=None)
-                #     alpha, C, bvs = self.GPupdate(self.priorfail, self.fail, self.kfunc, self.kparams, alpha, C, bvs, rawx=None)
-
-                # then update observed sequence
-
-                self.obsseqlen = num_obs_tasks
+            self.obsseqlen = num_obs_tasks
 
 
-                # Here is where we build the basis for the gaussian process
-                for t in range(self.obsseqlen):
-                    if self.kerneltype == self.FAKERNEL:
-                        if self.reptype == "1hot":
-                            x = torch.matmul(Alp, inptasksobs[t, i, :]).view(1, self.taskrepsize)
-                        else:
-                            # what is really executed
-                            x = torch.matmul(Alp, inptasksobs[t, i, :]).view(1, self.taskrepsize)
+            # Here is where we build the basis for the gaussian process
+            for t in range(self.obsseqlen):
+                if self.kerneltype == self.FAKERNEL:
+                    if self.reptype == "1hot":
+                        x = torch.matmul(Alp, inptasksobs[t, i, :]).view(1, self.taskrepsize)
+                    else:
+                        # what is really executed
+                        x = torch.matmul(Alp, inptasksobs[t, i, :]).view(1, self.taskrepsize)
+
+                else:
+                    # doesnt get here...
+                    x = inptasksobs[t, i, :].view(1, self.inpsize)
+                    #estdiff = self.getDifficulty(x)
+
+                if not((x == 0).all()):
+
+
+                    if (inptasksperf[t, i, 0] == 1).all():
+                        y = self.fullfail
 
                     else:
-                        # doesnt get here...
-                        x = inptasksobs[t, i, :].view(1, self.inpsize)
-                        #estdiff = self.getDifficulty(x)
+                        y = self.fullsucc
 
-                    if not((x == 0).all()):
-
-
-                        if (inptasksperf[t, i, 0] == 1).all():
-                            y = self.fullfail
-
-                        else:
-                            y = self.fullsucc
-
-                        alpha, C, bvs = self.GPupdate(x, y, self.kfunc, self.kparams, alpha, C, bvs, rawx=inptasksobs[t, i, :])
+                    alpha, C, bvs = self.GPupdate(x, y, self.kfunc, self.kparams, alpha, C, bvs, rawx=inptasksobs[t, i, :])
 
             # perform prediction
             if self.kerneltype == self.FAKERNEL:
@@ -977,7 +911,7 @@ class GPTrustTransfer_Mod(torch.nn.Module):
 
             Erfz = (torch.erf(z / self.sqrt2) + 1) / 2
             # print('Erfz', Erfz)
-            regl = self.reg_const #1.0  # dampener: in case. ---- try 0.5??
+            regl = self.reg_const
             constl = regl * 1.0 / np.sqrt(2 * np.pi)
             dErfz = torch.exp(-torch.pow(z, 2.0) / 2.0) * constl
             dErfz2 = dErfz * (-z) * regl
@@ -987,7 +921,7 @@ class GPTrustTransfer_Mod(torch.nn.Module):
                 rclp = 1.0  # clamp value for numerical stability
                 q = (y / sx) * (dErfz / Erfz) # EQUATION 11 of the paper
                 q = torch.clamp(q, -rclp, rclp)
-                r = (1.0 / s2) * ((dErfz2 / Erfz) - torch.pow((dErfz / Erfz), 2.0))   # Kinda weird...... EQUATION 12 of the paper
+                r = (1.0 / s2) * ((dErfz2 / Erfz) - torch.pow((dErfz / Erfz), 2.0))
                 r = torch.clamp(r, -rclp, rclp)
                 # print('r', r)
             else:
@@ -1014,10 +948,10 @@ class GPTrustTransfer_Mod(torch.nn.Module):
 
             C = torch.cat((C, zerocol), 1)
             C = torch.cat((C, zerorow))
-            C = C + r * torch.matmul(s.t() , s)       # EQUATION 10 of the paper
+            C = C + r * torch.matmul(s.t() , s)
 
             
-            alpha = alpha + s * q     # EQUATION 9 of the paper
+            alpha = alpha + s * q
 
             # print("q", q)
             # print("alpha 2", alpha)
@@ -1153,8 +1087,7 @@ class BaselineTrustModel(torch.nn.Module):
             
         obstrust = torch.clamp(predtrust, 1e-2, 0.99)
         return obstrust
-    
-    
+
     
 def initModel(modeltype, modelname, parameters):
     if modeltype == "neural":
@@ -1225,7 +1158,7 @@ def initModel(modeltype, modelname, parameters):
                                 usepriormean=usepriormean,
                                 usepriorpoints=usepriorpoints
                                 )
-    elif modeltype == "lineargaussian":
+    elif modeltype == "opt":
         inputsize = parameters["inputsize"]
         obsseqlen = parameters["obsseqlen"]
         model = BaselineTrustModel(modelname, inputsize, obsseqlen, consttrust=False)
