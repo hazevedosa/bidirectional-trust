@@ -1,8 +1,8 @@
 close all; clear all; clc;
 
-results_gp  = load('results_mat_gp');
-results_btm = load('results_mat_btm');
-results_opt = load('results_mat_lineargaussian.mat');
+results_gp  = load('../../../code/results/results_mat_gp.mat');
+results_btm = load('../../../code/results/results_mat_btm.mat');
+results_opt = load('../../../code/results/results_mat_opt.mat');
 
 lcs_gp  = results_gp.allresults(:, 4);
 lcs_btm = results_btm.allresults(:, 4);

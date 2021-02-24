@@ -20,9 +20,16 @@ That will generate the MatDataset.mat file in the code folder.
 
 1. Generate the sythentic data with robotTrust_dataGen.m
 
+(Here line 41 can be changed to represent the value of N)
+
+
 2. run python3 RobotTrustModel_2Dim.py
 
 3. explore the results file 'results/resultsRobotTrust_2Dim.mat' on MATLAB
+
+### Paper Figures
+
+With the results, data can be explored and figs can be generated with the scripts in paper/paperFigs/figs-code
 
 ## TODO
 Everything

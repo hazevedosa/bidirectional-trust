@@ -1,85 +1,49 @@
 close all; clear all; clc;
 
-load('resultsRobotTrust_2Dim.mat')
+b = 500;
+
+l1 = 0.0;
+u1 = 1.0;
+l2 = 0.0;
+u2 = 1.0;
+
+dl = 0.02;
+
+vv = 0.0:dl:1.0;
+
+[L1, L2] = meshgrid(vv, vv);
+
+T = trust(l1, u1, b, L1) .* trust(l2, u2, b, L2);
+
+figure()
+set(gcf, 'Position', [10 10 300 250])
+surf(L1, L2, T, 'EdgeColor',[0 0 0], 'FaceAlpha', 0.3, 'EdgeAlpha', 0.2)
+view([45 45])
+hold on
+
+poly_Xs1 = [-0.1 1.1 1.1 -0.1];
+poly_Ys1 = [l2 l2 u2 u2];
+
+pgon1 = polyshape(poly_Xs1, poly_Ys1);
+plot(pgon1, 'FaceColor', [1 1 1], 'FaceAlpha', 0.0, 'LineStyle', '--', 'EdgeColor', [0.5 0.5 0.5])
 
 
+poly_Xs2 = [l1 u1 u1 l1];
+poly_Ys2 = [-0.1 -0.1 1.1 1.1];
 
-norm_epochs = linspace(0, 1, length(tt));
-norm_epochs_2 = linspace(0, 0.5, length(tt));
+pgon2 = polyshape(poly_Xs2, poly_Ys2);
+plot(pgon2, 'FaceColor', [1 1 1], 'FaceAlpha', 0.0, 'LineStyle', '--', 'EdgeColor', [0.5 0.5 0.5])
 
+poly_Xs3 = [l1 u1 u1 l1];
+poly_Ys3 = [l2 l2 u2 u2];
 
-figure(1)
-set(gcf, 'Position', [10 10 1200 200])
-subplot(1, 4, 1)
+pgon3 = polyshape(poly_Xs3, poly_Ys3);
+plot(pgon3, 'FaceColor', [0.55 0.55 0.55], 'FaceAlpha', 1.0, 'EdgeColor', [0.55 0.55 0.55])
 
-plot(norm_epochs_2, l_1, 'y', norm_epochs_2, u_1, 'm','LineWidth',1.25);
-axis equal
-axis([0 0.5 0 1])
-set(gca,'XTick',[0:0.5:1])
-set(gca,'YTick',[0:0.5:1])
-grid on
+axis([0 1 0 1])
 
-subplot(1, 4, 2)
-plot(norm_epochs_2, l_2, norm_epochs_2, u_2,'LineWidth',1.25);
-axis equal
-axis([0 0.5 0 1])
-set(gca,'XTick',[0:0.5:1])
-set(gca,'YTick',[0:0.5:1])
-grid on
+zlabel('$\tau$','Interpreter','latex', 'FontSize',20)
+xlabel('$\bar{\lambda}_1$','Interpreter','latex', 'FontSize',20)
+ylabel('$\bar{\lambda}_2$','Interpreter','latex', 'FontSize',20)
 
-
-
-stride = 200;
-mm = mod(length(tt), stride);
-
-rectangles = floor(length(tt) / stride);
-
-idxs = zeros(1, rectangles);
-for i = 1:rectangles
-    idxs(i) = mm + i * stride;
-end
-
-areas = (u_1 - l_1) .* (u_2 - l_2);
-
-
-
-
-subplot(1, 4, 3)
-for i = rectangles:rectangles
-    
-    poly_Xs = [l_1(idxs(i)) u_1(idxs(i)) u_1(idxs(i)) l_1(idxs(i))];
-    poly_Ys = [l_2(idxs(i)) l_2(idxs(i)) u_2(idxs(i)) u_2(idxs(i))];
-    
-    
-    pgon = polyshape(poly_Xs, poly_Ys);
-    plot(pgon, 'FaceColor', [1 1 1], 'FaceAlpha', 1.0)
-    axis equal
-    axis([0 1 0 1])
-    set(gca,'XTick',[0:0.5:1])
-    set(gca,'YTick',[0:0.5:1])
-    hold on
-    
-end
-
-% plot(0.55, 0.75, '.g')
-
-
-%-------------------------------------
-
-load('fixed_tasks_robotTrust.mat');
-
-subplot(1, 4, 4)
-for i = 1:total_num_tasks
-    if perfs_from_mat(i) == 1
-        plot(p_from_mat(1, i), p_from_mat(2, i), '.b');
-    else
-        plot(p_from_mat(1, i), p_from_mat(2, i), '.r');
-    end
-    axis equal
-    axis([0 1 0 1])
-    set(gca,'XTick',[0:0.5:1])
-    set(gca,'YTick',[0:0.5:1])
-    hold on
-end
-
-
+set(gcf, 'Renderer', 'painters');

@@ -1,100 +1,85 @@
 close all; clear all; clc;
 
+load('../../../code/results/resultsRobotTrust_2Dim.mat')
 
-x = 0:0.001:1;
-y = 0:0.001:1;
 
-beta = [1 100000000];
-zeta = [0.1 100000000];
+
+norm_epochs = linspace(0, 1, length(tt));
+norm_epochs_2 = linspace(0, 0.5, length(tt));
 
 
 figure(1)
-set(gcf, 'Position', [400 250 500 500])
+set(gcf, 'Position', [10 10 1200 200])
+subplot(1, 4, 1)
 
-bbeta = beta(1);
-zzeta = zeta(1);
-
-
-t = 1 ./ (1 + exp(bbeta * (x-0.5))).^zzeta;
-
-subplot(2, 2, 1)
-plot(x, t, 'LineWidth', 1.5)
+plot(norm_epochs_2, l_1, 'y', norm_epochs_2, u_1, 'm','LineWidth',1.25);
 axis equal
-axis([0 1 0 1])
+axis([0 0.5 0 1])
 set(gca,'XTick',[0:0.5:1])
-set(gca,'YTick',[0, 1])
-grid on;
+set(gca,'YTick',[0:0.5:1])
+grid on
 
-title('$\beta_i = 1 \wedge \zeta_i = 0.1$', 'Interpreter', 'Latex', 'FontSize', 15);
-
-xlabel('$\bar{\lambda}_i$', 'Interpreter', 'Latex', 'FontSize', 15);
-ylabel('$\tau_i$', 'Interpreter', 'Latex', 'FontSize', 15);
-
-hold on
-
-
-bbeta = beta(1);
-zzeta = zeta(2);
-
-
-t = 1 ./ (1 + exp(bbeta * (x-0.5))).^zzeta;
-
-subplot(2, 2, 2)
-plot(x, t, 'LineWidth', 1.5)
+subplot(1, 4, 2)
+plot(norm_epochs_2, l_2, norm_epochs_2, u_2,'LineWidth',1.25);
 axis equal
-axis([0 1 0 1])
+axis([0 0.5 0 1])
 set(gca,'XTick',[0:0.5:1])
-set(gca,'YTick',[0, 1])
-grid on;
-
-title('$\beta_i = 1 \wedge \zeta_i = 10$', 'Interpreter', 'Latex', 'FontSize', 15);
-
-xlabel('$\bar{\lambda}_i$', 'Interpreter', 'Latex', 'FontSize', 15);
-ylabel('$\tau_i$', 'Interpreter', 'Latex', 'FontSize', 15);
-
-hold on
+set(gca,'YTick',[0:0.5:1])
+grid on
 
 
-bbeta = beta(2);
-zzeta = zeta(1);
+
+stride = 200;
+mm = mod(length(tt), stride);
+
+rectangles = floor(length(tt) / stride);
+
+idxs = zeros(1, rectangles);
+for i = 1:rectangles
+    idxs(i) = mm + i * stride;
+end
+
+areas = (u_1 - l_1) .* (u_2 - l_2);
 
 
-t = 1 ./ (1 + exp(bbeta * (x-0.5))).^zzeta;
-
-subplot(2, 2, 3)
-plot(x, t, 'LineWidth', 1.5)
-axis equal
-axis([0 1 0 1])
-set(gca,'XTick',[0:0.5:1])
-set(gca,'YTick',[0, 1])
-grid on;
-
-title('$\beta_i = 100 \wedge \zeta_i = 0.1$', 'Interpreter', 'Latex', 'FontSize', 15);
-
-xlabel('$\bar{\lambda}_i$', 'Interpreter', 'Latex', 'FontSize', 15);
-ylabel('$\tau_i$', 'Interpreter', 'Latex', 'FontSize', 15);
-
-hold on
 
 
-bbeta = beta(2);
-zzeta = zeta(2);
+subplot(1, 4, 3)
+for i = rectangles:rectangles
+    
+    poly_Xs = [l_1(idxs(i)) u_1(idxs(i)) u_1(idxs(i)) l_1(idxs(i))];
+    poly_Ys = [l_2(idxs(i)) l_2(idxs(i)) u_2(idxs(i)) u_2(idxs(i))];
+    
+    
+    pgon = polyshape(poly_Xs, poly_Ys);
+    plot(pgon, 'FaceColor', [1 1 1], 'FaceAlpha', 1.0)
+    axis equal
+    axis([0 1 0 1])
+    set(gca,'XTick',[0:0.5:1])
+    set(gca,'YTick',[0:0.5:1])
+    hold on
+    
+end
+
+% plot(0.55, 0.75, '.g')
 
 
-t = 1 ./ (1 + exp(bbeta * (x-0.5))).^zzeta;
+%-------------------------------------
 
-subplot(2, 2, 4)
-plot(x, t, 'LineWidth', 1.5)
-axis equal
-axis([0 1 0 1])
-set(gca,'XTick',[0:0.5:1])
-set(gca,'YTick',[0, 1])
-grid on;
+load('fixed_tasks_robotTrust.mat');
 
-title('$\beta_i = 100 \wedge \zeta_i = 10$', 'Interpreter', 'Latex', 'FontSize', 15);
+subplot(1, 4, 4)
+for i = 1:total_num_tasks
+    if perfs_from_mat(i) == 1
+        plot(p_from_mat(1, i), p_from_mat(2, i), '.b');
+    else
+        plot(p_from_mat(1, i), p_from_mat(2, i), '.r');
+    end
+    axis equal
+    axis([0 1 0 1])
+    set(gca,'XTick',[0:0.5:1])
+    set(gca,'YTick',[0:0.5:1])
+    hold on
+end
 
-xlabel('$\bar{\lambda}_i$', 'Interpreter', 'Latex', 'FontSize', 15);
-ylabel('$\tau_i$', 'Interpreter', 'Latex', 'FontSize', 15);
-
-hold on
 
