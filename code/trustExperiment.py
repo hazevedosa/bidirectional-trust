@@ -7,7 +7,7 @@ from torch import nn
 from torch.nn import Parameter
 
 import csv
-import os 
+import os
 
 import numpy as np
 from numpy.linalg import norm
@@ -16,14 +16,8 @@ from numpy import pi, sign, fabs, genfromtxt
 
 from scipy.special import gamma
 import scipy.stats as stats
-from sklearn.manifold import TSNE
-import sklearn.metrics as metrics
-from sklearn.decomposition import PCA
 
 import scipy.io as sio
-
-import spacy
-from spacy.language import Language
 
 import time
 import sys
@@ -33,7 +27,6 @@ import pickle
 from trustmodels import *
 from BidirectionalTrustModel import *
 
-import matplotlib.pyplot as plt
 
 # some globals
 usecuda = True # change this to True if you want cuda
@@ -42,10 +35,6 @@ dtype = torch.FloatTensor
 if usecuda:
     dtype = torch.cuda.FloatTensor
 
-
-npcafeats = 4
-pca = PCA(n_components=npcafeats)
-dirname = os.path.realpath('..')
 
 
 def createDataset_fromMatFile(mat_file_name):

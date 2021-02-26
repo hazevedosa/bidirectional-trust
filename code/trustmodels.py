@@ -15,11 +15,6 @@ import csv
 from scipy.special import gamma
 from numpy import pi, sign, fabs
 
-from sklearn.manifold import TSNE
-import sklearn.metrics as metrics
-
-import spacy
-from spacy.language import Language
 
 import time
 import sys
@@ -28,11 +23,6 @@ import pickle
 
 from trustmodels import *
 from BidirectionalTrustModel import *
-
-
-#from matplotlib import cm
-#import matplotlib.pyplot as plt
-#from mpl_toolkits.mplot3d import Axes3D
 
 
 # some globals
