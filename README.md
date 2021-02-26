@@ -9,6 +9,18 @@ The Raw dataset is found in `data/RawData.xlsx`. This dataset is processed with 
 
 ## Software
 
+### Dependencies
+
+All implementations were tested with Python 3.8.5 and PyTorch v1.5.0.
+The following packages are needed (please install with `python3 pip -m install --user <package name>`):
+
+* `numpy`
+* `torch`
+* `pickle`
+* `scipy`
+
+### Model Implementation
+
 The Bi-directional trust model is implemented in two files:
 
 * `code/BidirectionalTrustModel.py`, which contains the class BidirectoinalTrustModel; and
