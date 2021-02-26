@@ -4,7 +4,7 @@ Dataset and software for the paper "A Unified Bi-Directional Model for Natural a
 
 ## Dataset
 
-The Raw dataset is found in `data/RawData.xlsx`. This dataset is processed with the genDataset.m MATLAB script, as in the Instructions below.
+The raw dataset is found in `data/RawData.xlsx`. This dataset is processed with the `genDataset.m` MATLAB script, as in the **Instructions** below.
 
 
 ## Software
@@ -22,10 +22,10 @@ The following packages are needed (please install with `python3 -m pip install -
 
 ### Model Implementation
 
-The Bi-directional trust model is implemented in two files:
+The bi-directional trust model is implemented in two files:
 
 * `code/BidirectionalTrustModel.py`, which contains the class BidirectoinalTrustModel; and
-* `code/RobotTrustModel_2Dim.py`, which contains the class RobotTrustModel. This file also has a main function to test our Bi-directional trust model in the Artificial Trust mode.
+* `code/RobotTrustModel_2Dim.py`, which contains the class RobotTrustModel. This file also has a main function to test our bi-directional trust model in the Artificial Trust mode.
 
 Both classes extend PyTorch's `nn.Module` class.
 
@@ -37,7 +37,7 @@ https://github.com/crslab/human-trust-transfer.
 ### Humans' Natural Trust
 
 1. Run `data/genDataset.m` on MATLAB.
-That will generate the MatDataset.mat file in the code folder.
+That will generate the `MatDataset.mat` file in the code folder.
 
 2. Run `python3 trustExperiment.py <model>` from the `code` directory, with `<model> = btm`; `gpMod`; or `opt`.
 That will generate the file `results/results_mat_<model>.mat`.
@@ -48,7 +48,7 @@ That will generate the file `results/results_mat_<model>.mat`.
 ### Robots' Artificial Trust
 
 1. Run `data/robotTrust_dataGen.m` on MATLAB.
-That will generate the sythentic data for the Artificial Trust Mode simulation. Here line 41 can be changed to represent the value of N.
+That will generate the sythentic data for the Artificial Trust Mode simulation. Here, line _41_ can be changed to represent the value of _N_.
 
 2. Run `python3 RobotTrustModel_2Dim.py` from the `code` dir.
 That will generate the file `results/resultsRobotTrust_2Dim.mat`
