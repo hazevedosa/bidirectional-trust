@@ -73,8 +73,10 @@ class RobotTrustModel(torch.nn.Module):
             bin_center_idx_2 = obs_probs_idxs[i, 1]
             trust[i] = self.compute_trust(l_1, u_1, beta_1, bin_centers[bin_center_idx_1]) * self.compute_trust(l_2, u_2, beta_2, bin_centers[bin_center_idx_2])
 
-
-        return trust.cuda()
+        if usecuda:
+            trust = trust.cuda()
+        
+        return trust
 
     def compute_trust(self, l, u, b, p):
 
@@ -88,7 +90,10 @@ class RobotTrustModel(torch.nn.Module):
             else:
                 trust = (u - p) / (u - l + 0.0001)
 
-        return trust.cuda()
+        if usecuda:
+            trust = trust.cuda()
+        
+        return trust
 
     def sigm(self, x):
         return 1 / (1 + torch.exp(-x))
@@ -100,7 +105,9 @@ if __name__ == "__main__":
     
 
     model = RobotTrustModel()
-    model.cuda()
+
+    if usecuda:
+        model.cuda()
 
     bin_c = [0.05, 0.15, 0.25, 0.35, 0.45, 0.55, 0.65, 0.75, 0.85, 0.95]
     bin_c = dtype(bin_c)
