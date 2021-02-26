@@ -12,7 +12,7 @@ The Raw dataset is found in `data/RawData.xlsx`. This dataset is processed with 
 ### Dependencies
 
 All implementations were tested with Python 3.8.5 and PyTorch v1.5.0.
-The following packages are needed (please install with `python3 pip -m install --user <package name>`):
+The following packages are needed (please install with `python3 -m pip install --user <package name>`):
 
 * `numpy`
 * `torch`
