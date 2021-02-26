@@ -18,6 +18,7 @@ The following packages are needed (please install with `python3 pip -m install -
 * `torch`
 * `pickle`
 * `scipy`
+* `sklearn`
 
 ### Model Implementation
 

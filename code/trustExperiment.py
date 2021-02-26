@@ -17,6 +17,8 @@ from numpy import pi, sign, fabs, genfromtxt
 from scipy.special import gamma
 import scipy.stats as stats
 
+import sklearn.metrics as metrics
+
 import scipy.io as sio
 
 import time

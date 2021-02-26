@@ -15,6 +15,7 @@ import csv
 from scipy.special import gamma
 from numpy import pi, sign, fabs
 
+import sklearn.metrics as metrics
 
 import time
 import sys

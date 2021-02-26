@@ -9,6 +9,8 @@ from numpy.linalg import norm
 
 import scipy.io as sio
 
+import sklearn.metrics as metrics
+
 import pickle
 
 usecuda = True
