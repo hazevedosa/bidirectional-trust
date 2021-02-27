@@ -1,4 +1,4 @@
-# bidirectional-trust
+# biectional-trust
 
 Dataset and software for the paper "A Unified Bi-Directional Model for Natural and Artificial Trust in Human-Robot Collaboration".
 
@@ -37,7 +37,7 @@ https://github.com/crslab/human-trust-transfer.
 ### Humans' Natural Trust
 
 1. Run `data/genDataset.m` on MATLAB.
-That will generate the `MatDataset.mat` file in the code folder.
+That will generate the `MatDataset.mat` file in the code directory.
 
 2. Run `python3 trustExperiment.py <model>` from the `code` directory, with `<model> = btm`; `gpMod`; or `opt`.
 That will generate the file `results/results_mat_<model>.mat`.
@@ -50,7 +50,7 @@ That will generate the file `results/results_mat_<model>.mat`.
 1. Run `data/robotTrust_dataGen.m` on MATLAB.
 That will generate the sythentic data for the Artificial Trust Mode simulation. Here, line _41_ can be changed to represent the value of _N_.
 
-2. Run `python3 RobotTrustModel_2Dim.py` from the `code` dir.
+2. Run `python3 RobotTrustModel_2Dim.py` from the `code` directory.
 That will generate the file `results/resultsRobotTrust_2Dim.mat`
 
 3. Explore the results file `results/resultsRobotTrust_2Dim.mat` on MATLAB
@@ -65,6 +65,6 @@ All videos used in the experiment are available at https://bit.ly/37gXXkI.
 
 ## Misc
 
-The `paper` folder also contains the LaTeX source files for the paper. (TO BE CHANGED)
+The `paper` directory also contains the LaTeX source files for the paper. (TO BE CHANGED)
 
 `survey/Qualtrics Survey.pdf` presents the Qualtrics survey taken by the Amazon Mechanical Turk workers.
