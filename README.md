@@ -24,7 +24,7 @@ The following packages are needed (please install with `python3 -m pip install -
 
 The bi-directional trust model is implemented in two files:
 
-* `code/BidirectionalTrustModel.py`, which contains the class BidirectoinalTrustModel; and
+* `code/BidirectionalTrustModel.py`, which contains the class BidirectionalTrustModel; and
 * `code/RobotTrustModel_2Dim.py`, which contains the class RobotTrustModel. This file also has a main function to test our bi-directional trust model in the Artificial Trust mode.
 
 Both classes extend PyTorch's `nn.Module` class.
