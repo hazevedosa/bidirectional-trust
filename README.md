@@ -38,11 +38,11 @@ https://github.com/crslab/human-trust-transfer.
 
 1. Run `data/genDataset.m` on MATLAB.
 
-That will generate the `MatDataset.mat` file in the `code` directory.
+  That will generate the `MatDataset.mat` file in the `code` directory.
 
 2. Run `python3 trustExperiment.py <model>` from the `code` directory, with `<model> = btm`; `gpMod`; or `opt`.
 
-That will generate the file `results/results_mat_<model>.mat`.
+  That will generate the file `results/results_mat_<model>.mat`.
 
 3. Explore the results file `results/results_mat_<model>.mat` on MATLAB.
 
@@ -51,11 +51,11 @@ That will generate the file `results/results_mat_<model>.mat`.
 
 1. Run `data/robotTrust_dataGen.m` on MATLAB.
 
-That will generate the sythentic data for the Artificial Trust Mode simulation. Here, line _41_ can be changed to represent the value of _N_.
+  That will generate the sythentic data for the Artificial Trust Mode simulation. Here, line _41_ can be changed to represent the value of _N_.
 
 2. Run `python3 RobotTrustModel_2Dim.py` from the `code` directory.
 
-That will generate the file `results/resultsRobotTrust_2Dim.mat`
+  That will generate the file `results/resultsRobotTrust_2Dim.mat`
 
 3. Explore the results file `results/resultsRobotTrust_2Dim.mat` on MATLAB
 
